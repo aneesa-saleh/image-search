@@ -1,54 +1,77 @@
-<!-- This is a static file -->
-<!-- served from your routes in server.js -->
-
-<!-- You might want to try something fancier: -->
-<!-- html/nunjucks docs: https://mozilla.github.io/nunjucks/ -->
-<!-- pug: https://pugjs.org/ -->
-<!-- haml: http://haml.info/ -->
-<!-- hbs(handlebars): http://handlebarsjs.com/ -->
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Welcome to Glitch!</title>
-    <meta name="description" content="A cool thing made with Glitch">
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <title>Image Search Abstraction Microservice</title>
+    <meta name="description" content="Image Search Abstraction Microservice">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/main-style.css">
   </head>
   <body>
     <header>
       <h1>
-        A Dream of the Future
+        Image Search Abstraction Microservice
       </h1>
     </header>
 
     <main>
-      <p class="bold">Oh hi,</p>
-      <p>Tell me your hopes and dreams:</p>
-      <form>
-        <input type="text" maxlength="100" placeholder="Dreams!">
-        <button type="submit">Submit</button>
-      </form>
-      <section class="dreams">
-        <ul id="dreams">
-        </ul>
-      </section>
+
+      <p>Returns an array of JSON objects of images related to a particular search term.</p>
+
+      <h2 id="usage">Usage</h2>
+
+      <ul>
+      <li>Pass a search term in the URL to get JSON object of related images.</li>
+
+      <li>Use 'page' to select which page to display from.</li>
+
+      <li>Get the last 20 searches by using 'recent'.</li>
+
+      </ul>
+      
+      <h3>Example</h3>
+      
+      <h4>Get related images from a search term:</h4>
+      
+      <ul>
+        <li>https://as-image-search.glitch.me/search/baby%20dresses?page=1</li>
+      </ul>
+      
+      <h4>Get last 20 searches:</h4>
+      
+      <ul>
+        <li>https://as-image-search.glitch.me/recent</li>
+      </ul>
+
+      <p>Sample JSON Output:</p>
+
+      <div class="wrap-code">
+        <code>
+          {<br/>
+            &nbsp;"URL": "http://www.carters.com/dw/image/v2/AAMK_PRD/on/demandware.static/-/<br/>
+            &nbsp; &nbsp;Sites-carters_master_catalog/default/dwcbd14ecc/productimages/118H540.jpg?sw=244",<br/>
+            &nbsp;"Title": "Baby Girl Dresses & Rompers | Carter's | Free Shipping",<br/>
+            &nbsp;"Page URL": "http://www.carters.com/carters-baby-girl-dresses"<br/>
+          }
+        </code>
+      </div>
+
+      <p>Sample Error:</p>
+
+      <div class="wrap-code">
+        <code>
+          { <br/>
+              &nbsp;"Error": "Invalid page number. Please select a lower number." <br/>
+            } 
+        </code>
+      </div>
+      
     </main>
 
     <footer>
-      <a href="https://glitch.com">
-        Remix this in Glitch
-      </a>
     </footer>
-
-    <!-- Your web-app is https, so your scripts need to be too -->
-    <script src="https://code.jquery.com/jquery-2.2.1.min.js"
-            integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
-            crossorigin="anonymous"></script>
-    <script src="/client.js"></script>
 
   </body>
 </html>
