@@ -12,7 +12,8 @@
   "dependencies": {
     "express": "^4.16.1",
     "image-search-google": "^1.0.7",
-    "babel": "^6.23.0"
+    "babel": "^6.23.0",
+    "mongodb": "^2.2.33"
   },
   "engines": {
     "node": "8.x"
