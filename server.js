@@ -3,10 +3,23 @@ let mongo = require('mongodb').MongoClient;
 let express = require('express');
 let app = express();
 
+// return JSON with error message
 function errorJSON(error){
   return {
             "Error" : error
          };
+}
+
+//convert date to readable string
+function formatDate(date) {
+  var months = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
+  
+  return `${months[date.getMonth()]} ${date.getUTCDate()}, ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
 }
 
 // serve static files from the 'public' folder
@@ -59,14 +72,17 @@ app.get('/recent', (request, response) => {
         return errorJSON("A database error occured.");
      
       let history = db.collection('history');
-      history.find().sort({Time: -1}).toArray((err, documents) => {
+      history.find().sort({Time: -1}).toArray((err, documents) => { //pass -1 to sort in descending order
         if (err)
           return errorJSON("A database error occured.");
         
         if(documents.length === 0) // short code not in database
           return response.json(errorJSON("No search terms in history."));
 
-        response.json(documents);
+        response.json(documents.map((doc) => ({
+          "Search terms" : doc.Term,
+          "Time" : formatDate(doc.Time)
+        })));
       });
     });
 });
