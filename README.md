@@ -1,5 +1,5 @@
 # Image Search Abstraction Microservice
-Returns an array of JSON objects showing images related to a particular search term.
+Returns an array of JSON objects of images related to a particular search term.
 
 ## Usage
 * Pass a search term in the URL to get JSON object of related images.
@@ -16,17 +16,17 @@ Returns an array of JSON objects showing images related to a particular search t
 #### Sample JSON Output:
 
 ``` 
-{ 
-  "URL": "https://as-url-shortener.glitch.me/9P9QX", 
-  "Title": "https://google.com",
-  "Page URL": "https://google.com"
-} 
+{
+  "URL": "http://www.carters.com/dw/image/v2/AAMK_PRD/on/demandware.static/-/Sites-carters_master_catalog/default/dwcbd14ecc/productimages/118H540.jpg?sw=244",
+  "Title": "Baby Girl Dresses & Rompers | Carter's | Free Shipping",
+  "Page URL": "http://www.carters.com/carters-baby-girl-dresses"
+}
 ```
 
 #### Sample Error:
 ```
 {
-  "Error": "Code not recognized."
+  "Error": "Invalid page number. Please select a lower number."
 }
 ```
 

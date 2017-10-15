@@ -27,15 +27,11 @@ app.get("/search/:terms", (request,response) => {
           if(images.statusCode)
             response.json({Error : "Invalid page number. Please select a lower number."});
           else
-            response.json(images);
-          /*
-          [{
-              'url': item.link,
-              'thumbnail':item.image.thumbnailLink,
-              'snippet':item.title,
-              'context': item.image.contextLink
-          }]
-           */
+            response.json(images.map(image => ({
+              "URL" : image.url, 
+              "Title": image.snippet,
+              "Page URL": image.context
+            })));
       })
       .catch(error => console.log(error));
   })
