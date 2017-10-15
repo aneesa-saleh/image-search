@@ -28,23 +28,25 @@ app.use(express.static('public'));
 //db uri
 let uri = process.env.DB_URI;
 
-// http://expressjs.com/en/starter/basic-routing.html
+// home page
 app.get("/", (request, response) => {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+// respond to image search
 app.get("/search/:terms", (request,response) => {
   
   let client = new imageSearch(process.env.CSE_ID, process.env.API_KEY);
   let terms = request.params.terms;
+  //if page isn't provided or is invalid, use 1
   let page = Number(request.query.page) ? Number(request.query.page) : 1;
-  //console.log(`page = ${page} ; terms = ${terms}`);
   let options = {page: page};
   client.search(terms, options)
       .then(images => {
-          if(images.statusCode)
+          if(images.statusCode) //if JSON with an error code is returned (200 returns an array or results)
             response.json(errorJSON("Invalid page number. Please try a lower number."));
           else{
+            //add search terms to database
              mongo.connect(uri, (err, db) => {
               if (err)
                 return errorJSON("A database error occured.");
@@ -55,6 +57,7 @@ app.get("/search/:terms", (request,response) => {
               })
              });
             
+            //send formatted response
             response.json(images.map(image => ({
               "URL" : image.url, 
               "Title": image.snippet,
@@ -72,13 +75,14 @@ app.get('/recent', (request, response) => {
         return errorJSON("A database error occured.");
      
       let history = db.collection('history');
-      history.find().sort({Time: -1}).toArray((err, documents) => { //pass -1 to sort in descending order
+      history.find().sort({Time: -1}).toArray((err, documents) => { //pass -1 to sort in descending order of 'Time' values
         if (err)
           return errorJSON("A database error occured.");
         
-        if(documents.length === 0) // short code not in database
+        if(documents.length === 0) // nothing in database
           return response.json(errorJSON("No search terms in history."));
-
+        
+        //send formatted history
         response.json(documents.map((doc) => ({
           "Search terms" : doc.Term,
           "Time" : formatDate(doc.Time)
