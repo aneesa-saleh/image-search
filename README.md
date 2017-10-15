@@ -26,7 +26,7 @@ Returns an array of JSON objects of images related to a particular search term.
 #### Sample Error:
 ```
 {
-  "Error": "Invalid page number. Please select a lower number."
+  "Error": "Invalid page number. Please try a lower number."
 }
 ```
 
